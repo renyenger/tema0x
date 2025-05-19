@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100%" height="100%" style="position:fixed;top:0;left:0;width:100vw;height:100vh;display:block;z-index:0;" xmlns="http://www.w3.org/2000/svg" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <foreignObject x="0" y="0" width="100%" height="100%">
+    <body xmlns="http://www.w3.org/1999/xhtml">
+      <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
+        html, body {
+          margin: 0;
+          padding: 0;
+          width: 100vw;
+          height: 100vh;
+          min-width: 100vw;
+          min-height: 100vh;
+          background: #121619;
+          color: #fff;
+          font-family: 'Inter', sans-serif;
+        }
+        body {
+          width: 100vw;
+          height: 100vh;
+          min-width: 100vw;
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .container {
+          width: 99vw;
+          max-width: 900px;
+          min-width: 350px;
+          background: rgba(20,20,20,0.95);
+          border-radius: 28px;
+          box-shadow: 0 12px 48px rgba(0,0,0,0.35);
+          padding: 56px 32px 44px 32px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-start;
+          margin: auto;
+          font-size: 1.15em;
+        }
+        .top-watermark {
+          text-align: center;
+          margin-bottom: 48px;
+        }
+        .top-watermark .poc {
+          font-size: 2.6rem;
+          color: rgba(255,255,255,0.8);
+          letter-spacing: 3px;
+          font-weight: 700;
+          line-height: 1.1;
+        }
+        .top-watermark .author {
+          font-size: 3.8rem;
+          font-weight: 900;
+          background: linear-gradient(90deg, #00aaff, #67ccff);
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          line-height: 1.1;
+        }
+        .qrcode-image {
+          width: 25%;
+          height: 25%;
+          margin: 0 auto 24px auto;
+          display: block;
+        }
+        .airdrop-title {
+          color: wheat;
+          font-size: 2.1rem;
+          font-weight: bold;
+          margin-bottom: 28px;
+          margin-top: 28px;
+          text-align: center;
+        }
+        .button-container {
+          display: flex;
+          justify-content: center;
+          gap: 24px;
+          margin: 32px 0 0 0;
+          flex-wrap: wrap;
+          width: 100%;
+        }
+        .main-btn {
+          background: linear-gradient(135deg, #0f3b82, #4c0e82, #800d47);
+          border: none;
+          padding: 18px 0;
+          border-radius: 16px;
+          color: #fff;
+          font-size: 1.18rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-family: monospace;
+          letter-spacing: 0.5px;
+          width: 99vw;
+          max-width: 340px;
+          min-width: 140px;
+          margin-bottom: 0;
+        }
+        .main-btn:hover {
+          transform: translateY(-2px) scale(1.04);
+          border-color: white;
+          box-shadow: 0 0 0 2px white;
+        }
+        .claim-input {
+          width: 99vw;
+          max-width: 570px;
+          min-width: 140px;
+          padding: 20px;
+          font-size: 1.18rem;
+          background: rgba(255,255,255,0.07);
+          border: 1.5px solid rgba(0,170,255,0.22);
+          border-radius: 16px;
+          color: #fff;
+          text-align: center;
+          font-family: monospace;
+          margin: 40px 0 0 0;
+          transition: all 0.3s ease;
+          letter-spacing: 1px;
+          box-sizing: border-box;
+        }
+        .claim-input:focus {
+          outline: none;
+          border-color: #00aaff;
+          box-shadow: 0 0 18px rgba(0,170,255,0.13);
+        }
+        @media (max-width: 700px) {
+          .container {
+            padding: 18px 2vw 18px 2vw;
+            font-size: 1em;
+          }
+          .top-watermark .poc {
+            font-size: 1.5rem;
+          }
+          .top-watermark .author {
+            font-size: 2.2rem;
+          }
+          .qrcode-image {
+            width: 56px;
+            height: 56px;
+          }
+          .airdrop-title {
+            font-size: 1.2rem;
+          }
+          .main-btn, .claim-input {
+            font-size: 1rem;
+            max-width: 98vw;
+          }
+        }
+      </style>
+      <div class="container">
+        <div class="top-watermark">
+          <div class="poc">POC MADE BY</div>
+          <div class="author">Secure0x</div>
+        </div>
+        <img class="qrcode-image" src="https://ethsec.blog/poc_/secure0x_qr.png" />
+        <div class="airdrop-title">CHECK $AIRDROP ELIGIBILITY</div>
+        <div class="button-container">
+          <button class="main-btn" onclick="alert('Add token to MetaMask')">ADD TOKEN TO METAMASK</button>
+          <a href="virus.exe" download="">
+            <button class="main-btn">DOWNLOAD OUR WALLET</button>
+          </a>
+        </div>
+        <input class="claim-input" type="text" placeholder="ENTER PHRASE TO CLAIM AIRDROP" />
+      </div>
+    </body>
+  </foreignObject>
+</svg> 
